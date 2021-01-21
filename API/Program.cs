@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 //  Agragando manualmente
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
 
 namespace API
 {
@@ -26,6 +22,7 @@ namespace API
                 try{
                     var context = services.GetRequiredService<DataContext>();
                     context.Database.Migrate();
+                    Seed.SeedData(context);
                 }catch (Exception ex){
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error ocurred during migration(A ocurrido un error durante migracion)");
